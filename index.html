@@ -17,7 +17,7 @@ Instructor: Washington Valencia
     <!-- Link favicon-->
     <link rel="shortcut icon" type="image/x-icon"
         href="https://canvascctb.s3.ca-central-1.amazonaws.com/account_1/attachments/95/CCTB_favicon.ico" />
-
+    <script src="js/index.js" defer></script>
 </head>
 
 <body>
@@ -37,7 +37,7 @@ Instructor: Washington Valencia
                             <li class="nav-item dropdown">
                                 <a href="#" id="mainNavBlog" class="nav-link" data-bs-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
-                                    <H3>Lab 7.1 Conditional execution & AWS & GIT</H3>
+                                    <h3>Lab 7.1 Conditional execution & AWS & GIT</h3>
                                 </a>
                             </li>
 
@@ -53,8 +53,8 @@ Instructor: Washington Valencia
                 or add new contacts. Extend the list dynamically with the provided tools to ensure efficient contact
                 management.</p>
 
-            <!-- Add more contacts dynamically -->
-            <ul class="list-group">
+            <!-- Contact List -->
+            <ul class="list-group" id="contactList">
                 <li class="list-group-item">
                     Maxwell Wright / (0191) 719 6495 / agent1.@cctb.ca
                 </li>
@@ -84,7 +84,7 @@ Instructor: Washington Valencia
 
                     <div class="col-12 col-md-4 text-align-end">
                         <a href="#" class="btn btn-primary rounded-pill d-inline-flex align-items-end px-4"
-                            id="sign-out">
+                            id="addContact">
                             <span class="me-2">Add Contact</span>
                             <svg width="18px" height="18px" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                 class="bi bi-arrow-right-short" viewBox="0 0 16 16">
@@ -100,6 +100,56 @@ Instructor: Washington Valencia
         </div>
         <!-- /ADD MORE -->
     </div>
+
+    <script>
+        document.getElementById("addContact").addEventListener("click", function () {
+            const action = prompt("Choose an action: 'add' to add a new contact, 'delete' to delete all contacts:");
+
+            if (action === "add") {
+                const name = prompt("Enter the contact's name:");
+                const phone = prompt("Enter the contact's phone number:");
+                const email = prompt("Enter the contact's email:");
+
+                // Validate the inputs
+                if (name === "" || name === null) {
+                    alert("Error: The name field must not be empty.");
+                    return;
+                }
+
+                const phonePattern = /^[0-9]+$/;
+                if (!phonePattern.test(phone)) {
+                    alert("Error: The phone number must contain only digits.");
+                    return;
+                }
+
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(email)) {
+                    alert("Error: Please enter a valid email address.");
+                    return;
+                }
+
+                // Add the contact to the list
+                const contactList = document.getElementById("contactList");
+                const newContact = document.createElement("li");
+                newContact.className = "list-group-item";
+                newContact.textContent = `${name} / ${phone} / ${email}`;
+                contactList.appendChild(newContact);
+
+                alert("New contact added successfully!");
+
+            } else if (action === "delete") {
+                // Delete all contacts
+                const confirmDelete = confirm("Are you sure you want to delete all contacts?");
+                if (confirmDelete) {
+                    const contactList = document.getElementById("contactList");
+                    contactList.innerHTML = ""; // Clear all contacts
+                    alert("All contacts have been deleted.");
+                }
+            } else {
+                alert("Invalid action. Please choose 'add' or 'delete'.");
+            }
+        });
+    </script>
 
 </body>
 
